@@ -37,4 +37,21 @@ app.listen(port, () => {
 
 //ENDPOINTS
 
-getConnection()
+
+//GET
+
+
+
+//POST
+
+
+
+
+//PUT
+
+
+
+
+//DELETE
+
+
