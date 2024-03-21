@@ -22,7 +22,6 @@ const getConnection = async () => {
     database: process.env.MYSQL_SCHEMA || "recetas_db",
   });
 
-  
   await connection.connect();
 
   console.log(
@@ -42,9 +41,8 @@ app.listen(port, () => {
 
 //GET
 
-app.get('/api/recetas', async (req, res) => {
-
-  const paramSearch = req.query.search ? `%${req.query.search}%` : '%';
+app.get("/api/recetas", async (req, res) => {
+  const paramSearch = req.query.search ? `%${req.query.search}%` : "%";
 
   const connection = await getConnection();
 
@@ -52,16 +50,15 @@ app.get('/api/recetas', async (req, res) => {
     SELECT * FROM recetas WHERE ingredientes LIKE ?;
   `;
 
-
   const severalReceipes = await connection.query(queryGetTasks, [paramSearch]);
 
   const [results] = severalReceipes;
-
-  res.json(results);
-
-  
-
+  connection.end;
+  res.json({
+    info: { count: results.length },
+    result: results,
   });
+});
 
 //   app.get ('api/recetas/:id', async (req, res) => {
 
