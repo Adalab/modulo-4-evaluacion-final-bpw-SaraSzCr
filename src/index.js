@@ -22,11 +22,14 @@ const getConnection = async () => {
     database: process.env.MYSQL_SCHEMA || "recetas_db",
   });
 
+  
   await connection.connect();
 
   console.log(
     `Conexión establecida en la base de datos (identificador=${connection.threadId})`
   );
+
+  return connection;
 };
 
 //ARRANCAR
@@ -37,21 +40,43 @@ app.listen(port, () => {
 
 //ENDPOINTS
 
-
 //GET
 
+app.get('/api/recetas', async (req, res) => {
 
+  const paramSearch = req.query.search ? `%${req.query.search}%` : '%';
+
+  const connection = await getConnection();
+
+  const queryGetTasks = `
+    SELECT * FROM recetas WHERE ingredientes LIKE ?;
+  `;
+
+
+  const severalReceipes = await connection.query(queryGetTasks, [paramSearch]);
+
+  const [results] = severalReceipes;
+
+  res.json(results);
+
+  
+
+  });
+
+//   app.get ('api/recetas/:id', async (req, res) => {
+
+//    const connectionID = await getConnection();
+
+//    const queryGetReceipes = `SELECT * FROM recetas WHERE id LIKE ?;
+//   // `;
+
+//    const [resultsID] = await connectionID.query(queryGetReceipes);
+
+//   res.json(resultsId);
+// });
 
 //POST
 
-
-
-
 //PUT
 
-
-
-
 //DELETE
-
-

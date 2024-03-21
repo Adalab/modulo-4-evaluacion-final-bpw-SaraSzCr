@@ -3,7 +3,8 @@ VALUES ('tortilla de patatas', 'patatas, huevos, cebolla, aceite de oliva, sal',
 
 
 INSERT INTO recetas_db.recetas (nombre, ingredientes, instrucciones)
-VALUES ( 'pastel de zanahoria', ' zanahorias, huevos, azucar, harina, levadura para hornear, nueces picadas, canela en polvo, mantequilla', 'Ralla las zanahorias.
+VALUES ( 'pastel de zanahoria', ' zanahorias, huevos, azucar, harina, levadura para hornear, nueces picadas, canela en polvo, mantequilla'
+'Ralla las zanahorias.
 Pon en un bol los huevos y bátelos con la batidora de varillas durante un par de minutos. Agrega el azúcar moreno mientras sigues batiendo. Cuando se haya integrado, añade el aceite y sigue batiendo. 
 Incorpora la harina tamizada. Agrega la levadura, el bicarbonato, la canela, la ralladura de limón, el jengibre y la nuez moscada rallada. Bate todo de nuevo con la batidora de varillas. Añade la zanahoria rallada y vuelve a batir hasta quede una mezcla homogénea.
 Engrasa un molde con un poco de aceite o mantequilla y vierte la masa.
