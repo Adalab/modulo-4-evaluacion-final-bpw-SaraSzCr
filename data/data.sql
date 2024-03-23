@@ -20,3 +20,13 @@ VALUES ('batido de fresa casero', 'fresas, azucar, leche', 'Lavamos las fresas, 
 // Insertar nueva receta
 
 INSERT INTO recetas (nombre, ingredientes, instrucciones) VALUES ('zumo de naranja','naranjas','exprimir naranjas')
+
+
+// Actualizar receta
+
+UPDATE recetas SET nombre = "bocadillo de calamares", ingredientes = "pan, calamares", instrucciones = "freir calamares, añadir un chorrito de limón y meterlos en el pan" WHERE id = 5
+
+
+// Borrar una nueva receta
+
+DELETE FROM recetas WHERE id = 4

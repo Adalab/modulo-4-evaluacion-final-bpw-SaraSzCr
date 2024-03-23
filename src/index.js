@@ -43,23 +43,29 @@ app.listen(port, () => {
 
 app.get("/api/recetas", async (req, res) => {
   const paramSearch = req.query.search ? `%${req.query.search}%` : "%";
+  try {
+    const connection = await getConnection();
 
-  const connection = await getConnection();
-
-  const queryGetTasks = `
+    const queryGetTasks = `
     SELECT * FROM recetas WHERE ingredientes LIKE ?;
   `;
 
-  const todasRecetas = await connection.query(queryGetTasks, [paramSearch]);
+    const todasRecetas = await connection.query(queryGetTasks, [paramSearch]);
 
-  const [results] = todasRecetas;
+    const [results] = todasRecetas;
 
-  connection.end();
+    connection.end();
 
-  res.json({
-    info: { count: results.length },
-    results: results,
-  });
+    res.json({
+      info: { count: results.length },
+      results: results,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: `Ha ocurrido un problema ${error}`,
+    });
+  }
 });
 
 app.get("/api/recetas/:id", async (req, res) => {
@@ -80,10 +86,9 @@ app.get("/api/recetas/:id", async (req, res) => {
       res.json(receta[0]);
     }
   } catch (error) {
-    console.error(`Ha ocurrido un error: ${error}`);
     res.json({
       success: false,
-      message: "Ha ocurrido un error",
+      message: `Ha ocurrido un problema ${error}`,
     });
   }
 });
@@ -159,3 +164,25 @@ app.put("/api/recetas/:id", async (req, res) => {
 });
 
 //DELETE
+
+app.delete("/api/recetas/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const connection = await getConnection();
+
+    const deleteReceta = `DELETE FROM recetas WHERE id = ?`;
+
+    await connection.execute(deleteReceta, [id]);
+
+    connection.end();
+
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: `Ha ocurrido un problema ${error}`,
+    });
+  }
+});
