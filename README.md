@@ -15,7 +15,7 @@ Para realizar el ejercicio, he configurado previamente el servidor y he instalan
 
 - express
 - cors
-- mysql
+- mysql2
 - dot env
 
 En este ejercicio he utilizado las siguientes tecnologías:
@@ -24,6 +24,8 @@ En este ejercicio he utilizado las siguientes tecnologías:
 - JavaScript
 - Node.js
 - MYSQL
+- MYSQL Workbench
+- Json
 - Postman to test the endpoints
 
 ### Link de GitHub Pages 🔗
