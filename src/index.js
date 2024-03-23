@@ -96,12 +96,12 @@ app.post("/api/recetas", async (req, res) => {
   if (!nombre || !ingredientes || !instrucciones) {
     return res
       .status(400)
-      .json({ success: false, error: "Todos los campos son obligatorio" });
+      .json({ success: false, error: "Todos los campos son obligatorios" });
   }
   try {
     const connection = await getConnection();
 
-    const insertReceta = `INSERT INTO reces (nombre, ingredientes, instrucciones) VALUES (?,?,?)`;
+    const insertReceta = `INSERT INTO recetas (nombre, ingredientes, instrucciones) VALUES (?,?,?)`;
 
     const [resultadoReceta] = await connection.execute(insertReceta, [
       nombre,
@@ -118,13 +118,44 @@ app.post("/api/recetas", async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: `Ha ocurrido un problema ${error}`
-    })
+      message: `Ha ocurrido un problema ${error}`,
+    });
   }
 });
 
-
-
 //PUT
+
+app.put("/api/recetas/:id", async (req, res) => {
+  const id = req.params.id;
+  const { nombre, ingredientes, instrucciones } = req.body;
+  if (!nombre || !ingredientes || !instrucciones) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Todos los campos son obligatorios" });
+  }
+  try {
+    const connection = await getConnection();
+
+    const updateReceta = `UPDATE recetas SET nombre = ?, ingredientes = ?, instrucciones = ? WHERE id = ?`;
+
+    await connection.execute(updateReceta, [
+      nombre,
+      ingredientes,
+      instrucciones,
+      id,
+    ]);
+
+    connection.end();
+
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: `Ha ocurrido un problema ${error}`,
+    });
+  }
+});
 
 //DELETE
