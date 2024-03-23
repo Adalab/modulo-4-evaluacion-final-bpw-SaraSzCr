@@ -14,3 +14,9 @@ Saca el pastel del horno y déjalo templar. Desmolda y deja enfriar por completo
 
 INSERT INTO recetas_db.recetas (nombre, ingredientes, instrucciones)
 VALUES ('batido de fresa casero', 'fresas, azucar, leche', 'Lavamos las fresas, les cortamos los rabitos y las cortamos en trozos, reservando algunas para la decoración.Las embadurnamos con azúcar y dejamos reposar durante 20 minutos en la nevera.A continuación ponemos las fresas con la leche en un bol y las trituramos con ayuda de la batidora hasta conseguir un batido cremoso.Si nos gusta más dulce podemos añadirle un poco más de azúcar.Lo pasamos por un colador si queremos que quede más fino y lo metemos en el frigorífico para que se enfríe.')
+
+
+
+// Insertar nueva receta
+
+INSERT INTO recetas (nombre, ingredientes, instrucciones) VALUES ('zumo de naranja','naranjas','exprimir naranjas')

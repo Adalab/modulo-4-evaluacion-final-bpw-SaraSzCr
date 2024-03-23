@@ -90,6 +90,41 @@ app.get("/api/recetas/:id", async (req, res) => {
 
 //POST
 
+app.post("/api/recetas", async (req, res) => {
+  const { nombre, ingredientes, instrucciones } = req.body;
+
+  if (!nombre || !ingredientes || !instrucciones) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Todos los campos son obligatorio" });
+  }
+  try {
+    const connection = await getConnection();
+
+    const insertReceta = `INSERT INTO reces (nombre, ingredientes, instrucciones) VALUES (?,?,?)`;
+
+    const [resultadoReceta] = await connection.execute(insertReceta, [
+      nombre,
+      ingredientes,
+      instrucciones,
+    ]);
+
+    connection.end();
+
+    res.json({
+      success: true,
+      id: [resultadoReceta.insertId],
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: `Ha ocurrido un problema ${error}`
+    })
+  }
+});
+
+
+
 //PUT
 
 //DELETE
