@@ -34,7 +34,7 @@ const getConnection = async () => {
 //ARRANCAR
 
 app.listen(port, () => {
-  console.log(`Server has been started in <http://localhost:${port}`);
+  console.log(`Server has been started in <http://localhost:${port}>`);
 });
 
 //ENDPOINTS
@@ -50,27 +50,43 @@ app.get("/api/recetas", async (req, res) => {
     SELECT * FROM recetas WHERE ingredientes LIKE ?;
   `;
 
-  const severalReceipes = await connection.query(queryGetTasks, [paramSearch]);
+  const todasRecetas = await connection.query(queryGetTasks, [paramSearch]);
 
-  const [results] = severalReceipes;
-  connection.end;
+  const [results] = todasRecetas;
+
+  connection.end();
+
   res.json({
     info: { count: results.length },
-    result: results,
+    results: results,
   });
 });
 
-//   app.get ('api/recetas/:id', async (req, res) => {
+app.get("/api/recetas/:id", async (req, res) => {
+  const id = req.params.id;
 
-//    const connectionID = await getConnection();
+  try {
+    const connection = await getConnection();
 
-//    const queryGetReceipes = `SELECT * FROM recetas WHERE id LIKE ?;
-//   // `;
+    const queryGetId = `SELECT * FROM recetas WHERE id = ?`;
 
-//    const [resultsID] = await connectionID.query(queryGetReceipes);
+    const [receta] = await connection.query(queryGetId, [id]);
 
-//   res.json(resultsId);
-// });
+    connection.end();
+
+    if (receta.length === 0) {
+      res.status(404).json({ success: false, message: "Receta no encontrada" });
+    } else {
+      res.json(receta[0]);
+    }
+  } catch (error) {
+    console.error(`Ha ocurrido un error: ${error}`);
+    res.json({
+      success: false,
+      message: "Ha ocurrido un error",
+    });
+  }
+});
 
 //POST
 
