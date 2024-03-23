@@ -40,18 +40,15 @@ app.listen(port, () => {
 //ENDPOINTS
 
 //GET
-
 app.get("/api/recetas", async (req, res) => {
   const paramSearch = req.query.search ? `%${req.query.search}%` : "%";
+
   try {
     const connection = await getConnection();
-
     const queryGetTasks = `
     SELECT * FROM recetas WHERE ingredientes LIKE ?;
   `;
-
     const todasRecetas = await connection.query(queryGetTasks, [paramSearch]);
-
     const [results] = todasRecetas;
 
     connection.end();
@@ -73,9 +70,7 @@ app.get("/api/recetas/:id", async (req, res) => {
 
   try {
     const connection = await getConnection();
-
     const queryGetId = `SELECT * FROM recetas WHERE id = ?`;
-
     const [receta] = await connection.query(queryGetId, [id]);
 
     connection.end();
@@ -94,7 +89,6 @@ app.get("/api/recetas/:id", async (req, res) => {
 });
 
 //POST
-
 app.post("/api/recetas", async (req, res) => {
   const { nombre, ingredientes, instrucciones } = req.body;
 
@@ -105,9 +99,7 @@ app.post("/api/recetas", async (req, res) => {
   }
   try {
     const connection = await getConnection();
-
     const insertReceta = `INSERT INTO recetas (nombre, ingredientes, instrucciones) VALUES (?,?,?)`;
-
     const [resultadoReceta] = await connection.execute(insertReceta, [
       nombre,
       ingredientes,
@@ -129,20 +121,19 @@ app.post("/api/recetas", async (req, res) => {
 });
 
 //PUT
-
 app.put("/api/recetas/:id", async (req, res) => {
   const id = req.params.id;
+
   const { nombre, ingredientes, instrucciones } = req.body;
   if (!nombre || !ingredientes || !instrucciones) {
     return res
       .status(400)
       .json({ success: false, error: "Todos los campos son obligatorios" });
   }
+
   try {
     const connection = await getConnection();
-
     const updateReceta = `UPDATE recetas SET nombre = ?, ingredientes = ?, instrucciones = ? WHERE id = ?`;
-
     await connection.execute(updateReceta, [
       nombre,
       ingredientes,
@@ -164,14 +155,11 @@ app.put("/api/recetas/:id", async (req, res) => {
 });
 
 //DELETE
-
 app.delete("/api/recetas/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const connection = await getConnection();
-
     const deleteReceta = `DELETE FROM recetas WHERE id = ?`;
-
     await connection.execute(deleteReceta, [id]);
 
     connection.end();
